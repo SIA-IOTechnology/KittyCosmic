@@ -31,18 +31,21 @@ Modern, web-based GUI for the [KittySploit](https://github.com/kittysploit/kitty
 
 ## Installation
 
-1. Clone this repository:
+From the KittySploit framework command line, install the extension from the marketplace:
 
-   ```bash
-   git clone <repository-url>
-   cd KittyCosmic
-   ```
+```bash
+market install kittycosmic
+```
 
-2. Install it as a KittySploit UI extension — either point your KittySploit extensions path at this repo root (which contains `extension.toml`), or copy the project into your KittySploit extensions directory following your local framework layout.
+Install Python dependencies if they are not already present (see [Requirements](#requirements)):
 
-3. Install Python dependencies (see above).
+```bash
+pip install flask flask-socketio flask-cors requests
+```
 
 The extension manifest is defined in [`extension.toml`](extension.toml). The entry point is [`src/kittycosmic.py`](src/kittycosmic.py).
+
+For local development, clone this repository and use it from your KittySploit extensions directory, or run [`src/kittycosmic.py`](src/kittycosmic.py) directly inside a KittySploit installation tree.
 
 ## Running
 
