@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KittyOS Cosmic</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- XTerm.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <!-- vis-network for workflow graph editor -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <!-- CodeMirror for code editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/properties/properties.min.js"></script>
+    <!-- Note: VNC client uses custom Socket.IO adapter instead of noVNC for simplicity -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/os.css') }}">
+</head>
+
+<body>
+    <div id="desktop">
+
+        <!-- Desktop Background Logo -->
+        <div class="desktop-logo-watermark">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Kittysploit Logo" class="logo-image">
+        </div>
+
+        <!-- Desktop Icons Grid -->
+        <div class="desktop-icons">
+            <!-- 1. Terminal -->
+            <div class="desktop-icon icon-terminal" data-app-id="terminal" onclick="os.openApp('terminal')">
+                <div class="icon-img"><ion-icon name="terminal-outline"></ion-icon></div>
+                <div class="icon-label">Terminal</div>
+            </div>
+            <!-- 2. KittyProxy -->
+            <div class="desktop-icon icon-security" data-app-id="kittyproxy" onclick="os.openApp('kittyproxy')">
+                <div class="icon-img"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
+                <div class="icon-label">KittyProxy</div>
+            </div>
+            <!-- 3. KittyCollab -->
+            <div class="desktop-icon icon-collab" data-app-id="collab" onclick="os.openApp('collab')">
+                <div class="icon-img"><ion-icon name="code-slash-outline"></ion-icon></div>
+                <div class="icon-label">KittyCollab</div>
+            </div>
+            <!-- 4. Workflows -->
+            <div class="desktop-icon icon-workflow" data-app-id="workflows" onclick="os.openApp('workflows')">
+                <div class="icon-img"><ion-icon name="git-branch-outline"></ion-icon></div>
+                <div class="icon-label">Workflows</div>
+            </div>
+            <!-- 5. Module Launcher -->
+            <div class="desktop-icon icon-ide" data-app-id="module_launcher" onclick="os.openApp('module_launcher')">
+                <div class="icon-img"><ion-icon name="rocket-outline"></ion-icon></div>
+                <div class="icon-label">Module Launcher</div>
+            </div>
+            <!-- 6. Browser Server -->
+            <div class="desktop-icon icon-browser" data-app-id="browser_server" onclick="os.openApp('browser_server')">
+                <div class="icon-img"><ion-icon name="globe-outline"></ion-icon></div>
+                <div class="icon-label">Browser Server</div>
+            </div>
+            <!-- 7. Network Map -->
+            <div class="desktop-icon icon-network-map" data-app-id="network_map" onclick="os.openApp('network_map')">
+                <div class="icon-img"><ion-icon name="map-outline"></ion-icon></div>
+                <div class="icon-label">Network Map</div>
+            </div>
+            <!-- 8. Sessions -->
+            <div class="desktop-icon icon-sessions" data-app-id="sessions" onclick="os.openApp('sessions')">
+                <div class="icon-img"><ion-icon name="people-outline"></ion-icon></div>
+                <div class="icon-label">Sessions</div>
+            </div>
+            <!-- 9. Jobs -->
+            <div class="desktop-icon icon-jobs" data-app-id="jobs" onclick="os.openApp('jobs')">
+                <div class="icon-img"><ion-icon name="briefcase-outline"></ion-icon></div>
+                <div class="icon-label">Jobs</div>
+            </div>
+            <!-- 10. Hosts & Vuln -->
+            <div class="desktop-icon icon-network" data-app-id="network" onclick="os.openApp('network')">
+                <div class="icon-img"><ion-icon name="bug-outline"></ion-icon></div>
+                <div class="icon-label">Hosts & Vuln</div>
+            </div>
+            <!-- 11. Ports -->
+            <div class="desktop-icon icon-server" data-app-id="ports" onclick="os.openApp('ports')">
+                <div class="icon-img"><ion-icon name="server-outline"></ion-icon></div>
+                <div class="icon-label">Ports</div>
+            </div>
+            <!-- 12. Scanner -->
+            <div class="desktop-icon icon-scanner" data-app-id="scanner" onclick="os.openApp('scanner')">
+                <div class="icon-img"><ion-icon name="scan-outline"></ion-icon></div>
+                <div class="icon-label">Scanner</div>
+            </div>
+            <!-- 13. Backdoor Generator -->
+            <div class="desktop-icon icon-backdoor" data-app-id="backdoor_generator" onclick="os.openApp('backdoor_generator')">
+                <div class="icon-img"><ion-icon name="key-outline"></ion-icon></div>
+                <div class="icon-label">Backdoor Generator</div>
+            </div>
+            <!-- 13. Web Delivery -->
+            <div class="desktop-icon icon-web-delivery" data-app-id="web_delivery" onclick="os.openApp('web_delivery')">
+                <div class="icon-img"><ion-icon name="cloud-download-outline"></ion-icon></div>
+                <div class="icon-label">Web Delivery</div>
+            </div>
+            <!-- 14. Listener Manager -->
+            <div class="desktop-icon icon-listeners" data-app-id="listeners" onclick="os.openApp('listeners')">
+                <div class="icon-img"><ion-icon name="radio-outline"></ion-icon></div>
+                <div class="icon-label">Listener Manager</div>
+            </div>
+            <!-- 15. VNC Client -->
+            <div class="desktop-icon icon-vnc" data-app-id="vnc" onclick="os.openApp('vnc')">
+                <div class="icon-img"><ion-icon name="desktop-outline"></ion-icon></div>
+                <div class="icon-label">VNC Client</div>
+            </div>
+            <!-- 16. Docker Environments -->
+            <div class="desktop-icon icon-docker" data-app-id="docker_environments" onclick="os.openApp('docker_environments')">
+                <div class="icon-img"><ion-icon name="cube-outline"></ion-icon></div>
+                <div class="icon-label">Docker</div>
+            </div>
+            <!-- 17. Chat Server -->
+            <div class="desktop-icon icon-chat" data-app-id="chat_server" onclick="os.openApp('chat_server')">
+                <div class="icon-img"><ion-icon name="chatbox-ellipses-outline"></ion-icon></div>
+                <div class="icon-label">Chat Server</div>
+            </div>
+            <!-- 18. Marketplace -->
+            <div class="desktop-icon icon-marketplace" data-app-id="marketplace" onclick="os.openApp('marketplace')">
+                <div class="icon-img"><ion-icon name="storefront-outline"></ion-icon></div>
+                <div class="icon-label">Marketplace</div>
+            </div>
+            <!-- 19. Notes -->
+            <div class="desktop-icon icon-notes" data-app-id="notes" onclick="os.openApp('notes')">
+                <div class="icon-img"><ion-icon name="document-text-outline"></ion-icon></div>
+                <div class="icon-label">Notes</div>
+            </div>
+            <!-- 20. Agent cible -->
+            <div class="desktop-icon icon-agent" data-app-id="agent_launcher" onclick="os.openApp('agent_launcher')">
+                <div class="icon-img"><ion-icon name="hardware-chip-outline"></ion-icon></div>
+                <div class="icon-label">Agent Launcher</div>
+            </div>
+        </div>
+
+        <!-- Desktop Widgets (Right Side) -->
+        <div class="desktop-widgets">
+            <!-- System Monitor Widget -->
+            <div class="desktop-widget">
+                <div class="widget-header">
+                    <span>System Monitor</span>
+                </div>
+                <div class="widget-content">
+                    <div class="widget-stat">
+                        <span class="stat-label">IP Address</span>
+                        <span class="stat-value-container">
+                            <span id="system-ip" style="font-size: 11px;">Loading...</span>
+                            <button class="ip-copy-btn" id="ip-copy-btn" onclick="os.copyIPAddress()" title="Copier l'adresse IP">
+                                <ion-icon name="copy-outline" style="font-size: 14px;"></ion-icon>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="widget-stat">
+                        <span class="stat-label">CPU</span>
+                        <span class="stat-value" id="system-cpu">0%</span>
+                    </div>
+                    <div class="widget-stat">
+                        <span class="stat-label">RAM</span>
+                        <span class="stat-value" id="system-ram">0%</span>
+                    </div>
+                    <div class="widget-stat">
+                        <span class="stat-label">Disk</span>
+                        <span class="stat-value" id="system-disk">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info Widget -->
+            <div class="desktop-widget">
+                <div class="widget-header">
+                    <span>Framework Info</span>
+                </div>
+                <div class="widget-content">
+                    <div class="widget-stat">
+                        <span class="stat-label">Version</span>
+                        <span class="stat-value" id="framework-version">Loading...</span>
+                    </div>
+                    <div class="widget-stat">
+                        <span class="stat-label">Sessions</span>
+                        <span class="stat-value" id="sessions-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workspaces Widget -->
+            <div class="desktop-widget">
+                <div class="widget-header">
+                    <span>Workspaces</span>
+                </div>
+                <div class="widget-content">
+                    <select id="workspace-select">
+                        <option value="">Loading workspaces...</option>
+                    </select>
+                    <button class="widget-action-pro" onclick="os.createWorkspace()">
+                        <span class="action-icon">+</span>
+                        <span>New Workspace</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Guardians Widget -->
+            <div class="desktop-widget" id="guardians-widget">
+                <div class="widget-header">
+                    <span>Security Guardians</span>
+                </div>
+                <div class="widget-content">
+                    <div id="guardians-list" style="max-height: 150px; overflow-y: auto;">
+                        <div style="color: #666; font-size: 12px; text-align: center; padding: 10px;">Loading...</div>
+                    </div>
+                    <button class="widget-action-pro" onclick="os.manageGuardians()">
+                        <span class="action-icon">⚙</span>
+                        <span>Configure</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Window Area -->
+        <div id="window-area"></div>
+
+        <!-- Start Menu (Hidden by default) -->
+        <div id="start-menu">
+            <div class="start-header">
+                <div class="user-profile">
+                    <div class="avatar">
+                        <img src="/static/logo.jpg" alt="Kittysploit Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%; max-width: 40px; max-height: 40px;">
+                    </div>
+                    <span>KittyOS Cosmic</span>
+                </div>
+            </div>
+            <div class="start-items">
+                <!-- Menu will be built dynamically by JavaScript -->
+            </div>
+        </div>
+        <!-- Taskbar -->
+        <div id="taskbar">
+            <div id="taskbar-left">
+                <button id="start-btn" onclick="os.toggleStartMenu()">
+                    <ion-icon name="apps-outline"></ion-icon>
+                    <span>Menu</span>
+                </button>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                    <input type="text" id="app-search" placeholder="Search apps..." autocomplete="off" />
+                    <div id="search-results" class="search-results"></div>
+                </div>
+
+                <!-- Icon Buttons Group -->
+                <div class="taskbar-icon-buttons">
+                    <button class="terminal-icon-btn" onclick="os.openApp('terminal')" title="Open Terminal">
+                        <ion-icon name="terminal-outline"></ion-icon>
+                    </button>
+                    <button class="terminal-icon-btn" onclick="os.openApp('irc')" title="Open KittyChat IRC">
+                        <ion-icon name="chatbubbles-outline"></ion-icon>
+                    </button>
+                    <button class="terminal-icon-btn" onclick="os.openApp('output_explorer')" title="Output Explorer">
+                        <ion-icon name="folder-outline"></ion-icon>
+                    </button>
+                </div>
+
+                <div id="task-items"></div>
+            </div>
+
+            <div class="sys-tray">
+                <div class="tray-icon" id="fullscreen-toggle" onclick="os.toggleFullscreen()" title="Toggle Fullscreen">
+                    <ion-icon name="expand-outline" id="fullscreen-icon"></ion-icon>
+                </div>
+                <div class="tray-icon" id="reset-storage-toggle" onclick="os.resetStorage()" title="Reset & Reload - Clear all local storage">
+                    <ion-icon name="refresh-outline" id="reset-icon"></ion-icon>
+                </div>
+                <div class="tray-icon" id="wifi-toggle" title="Wi-Fi"><ion-icon name="wifi"></ion-icon></div>
+                <div class="tray-icon" id="sound-toggle" onclick="os.toggleSound()" title="Toggle Sound">
+                    <ion-icon name="volume-high" id="sound-icon"></ion-icon>
+                </div>
+                <div class="tray-icon" id="tor-toggle" onclick="os.toggleTor()" title="Tor Network">
+                    <img src="{{ url_for('static', filename='img/tor-icon.svg') }}" id="tor-icon" style="width: 20px; height: 20px; filter: brightness(0) invert(1);" alt="Tor">
+                </div>
+                <div id="clock"></div>
+            </div>
+        </div>
+
+        <div class="footer-hint">
+            Cliquez sur le noyau central pour ouvrir le lanceur - Essayez Harmony, Messages, Terminal ou Compute !
+        </div>
+
+        <!-- Notifications Container -->
+        <div id="notifications-container"></div>
+
+    </div>
+
+    <!-- Socket.IO client (used for realtime widgets/terminal streaming) -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/os.js') }}"></script>
+</body>
+
+</html>

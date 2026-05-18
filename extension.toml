@@ -1,0 +1,123 @@
+# KittyCosmic Interface Extension Manifest
+# Type: UI/INTERFACE
+
+# === IDENTITY ===
+id = "kittycosmic"
+name = "KittyCosmic Intuitive Interface"
+version = "1.1.0"
+description = "Modern and intuitive web-based GUI interface for KittySploit framework with real-time collaboration, terminal, and OS desktop simulation"
+author = "KittySploit Team"
+
+# === TYPE ===
+extension_type = "UI"
+
+# === INSTALLATION ===
+# Entry point: main interface file
+entry_point = "src/kittycosmic.py"
+
+# NOTE: No install_path for interfaces!
+# A launcher will be created at root: launch_kittycosmic.py
+
+# === COMPATIBILITY ===
+[compatibility]
+kittysploit_min = "1.0.0"
+kittysploit_max = "*"
+
+# === PERMISSIONS ===
+[permissions]
+# Web interface requires network access for Flask server and SocketIO
+network_access = true
+
+# Database access to read results, store configuration, and manage workspaces
+database_access = true
+
+# Sandbox level: standard (allows framework integration)
+sandbox_level = "standard"
+
+# Allowed Python imports (based on actual dependencies in kittycosmic.py)
+allowed_imports = [
+    # Flask and web framework
+    "flask",
+    "flask_cors",
+    "flask_socketio",
+    "werkzeug",
+    "jinja2",
+    "jinja2.loaders",
+    
+    # Standard library
+    "sys",
+    "os",
+    "json",
+    "logging",
+    "threading",
+    "time",
+    "ast",
+    "inspect",
+    "importlib",
+    "importlib.util",
+    "datetime",
+    "dataclasses",
+    "pathlib",
+    "queue",
+    "sqlite3",
+    "urllib",
+    "urllib.parse",
+    "base64",
+    "hashlib",
+    "socket",
+    "ssl",
+    "subprocess",
+    
+    # Framework core (required for interface functionality)
+    "kittysploit",
+    "core",
+    "core.models",
+    "core.models.models",
+    "core.framework",
+    "core.framework.base_module",
+    "core.output_handler",
+    "core.session",
+    "core.config",
+    "core.db_manager",
+    "core.workspace_manager",
+    "core.session_manager",
+    
+    # Framework interfaces
+    "interfaces",
+    "interfaces.command_system",
+    "interfaces.command_system.command_registry",
+    "interfaces.command_system.base_command",
+    
+    # Local extension modules
+    "kittyos_cosmic",
+    "kittyos_cosmic.chat_server",
+    "kittyos_cosmic.proxy_manager",
+    "kittyos_cosmic.irc_bridge",
+    "kittyos_cosmic.vnc_proxy"
+]
+
+# Blocked imports (security - prevent dangerous operations)
+blocked_imports = [
+    "ctypes",
+    "pickle",
+    "marshal"
+]
+
+# Hooks and events (empty for interfaces typically)
+hooks = []
+events = []
+middlewares = []
+
+# === MARKETPLACE METADATA ===
+[metadata]
+price = 0  # Free interface
+currency = "EUR"
+license = "MIT"
+
+# === OPTIONAL: ASSETS ===
+# List of additional files/assets included in the extension
+assets = []
+
+# === CONFLICT STRATEGY ===
+# For launcher generation: fail, overwrite, or skip
+on_conflict = "overwrite"

@@ -1,0 +1,61 @@
+/* Sober Buttons for modern UI */
+.btn-sober {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    outline: none;
+}
+
+.btn-sober:hover:not(:disabled) {
+    background: #30363d;
+    border-color: #8b949e;
+    transform: translateY(-1px);
+}
+
+.btn-sober:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-sober:disabled {
+    background: #0d1117;
+    color: #484f58;
+    border-color: #21262d;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-sober.primary {
+    background: transparent;
+    border: 1px solid #238636;
+    color: #3fb950;
+}
+
+.btn-sober.primary:hover:not(:disabled) {
+    background: rgba(46, 160, 67, 0.1);
+    border-color: #2ea043;
+}
+
+.btn-sober.danger {
+    background: transparent;
+    border: 1px solid #da3633;
+    color: #f85149;
+}
+
+.btn-sober.danger:hover:not(:disabled) {
+    background: rgba(248, 81, 73, 0.1);
+    border-color: #f85149;
+}
+
+.btn-sober.full-width {
+    width: 100%;
+}
